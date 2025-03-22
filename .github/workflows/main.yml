@@ -1,0 +1,17 @@
+name: Send Lead to Telegram
+on:
+  repository_dispatch:
+    types: [lead]
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run Script
+        run: node script.js
+        env:
+          OFFER_ID: ${{ github.event.client_payload.offer_id }}
+          PAYOUT: ${{ github.event.client_payload.payout }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
